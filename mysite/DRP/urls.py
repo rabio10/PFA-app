@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.DRP_app),
+    path('', views.DRP_app, name='DRP'),
 ]
 
 if settings.DEBUG:
