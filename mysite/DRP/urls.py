@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.DRP_app, name='DRP'),
+    path('vis/', views.visualize_data, name='visualize_data'),
 ]
 
 if settings.DEBUG:

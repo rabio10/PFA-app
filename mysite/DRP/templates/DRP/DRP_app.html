@@ -1,20 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-<style>
-    .container {
-        display: flex;
-    }
-    .sidebar {
-        flex: 1;
-        background-color: #305274;
-        padding: 20px;
-    }
-    .main-content {
-        flex: 3;
-        background-color: #e9ecef;
-        padding: 20px;
-    }
-</style>
+<script src="https://cdn.plot.ly/plotly-2.31.1.min.js" charset="utf-8"></script>
+
 <div class="container">
     <div class="sidebar">
         <h2>Menu</h2>
@@ -22,10 +9,45 @@
             <li><a href="#prevision">Prevision</a></li>
             <li><a href="#history">History</a></li>
             <li><a href="#infos">Infos</a></li>
-        </ul>
+        </ul>   
     </div>
     <div class="main-content">
         <h1>DRP APP</h1>
+        <p>DRP APP is a Django web application that allows you to make a demand forecast for a product.</p>
+        <p>It is based on the <a href="https://en.wikipedia.org/wiki/Double_exponential_smoothing">Double Exponential Smoothing</a> method.</p>
+        <p>It is composed of 3 main parts:</p>
+        <ul>
+            <li>Prevision: Make a forecast for a product</li>
+            <li>History: Display the history of the forecast for a product</li>
+            <li>Infos: Display the informations of the forecast for a product</li>
+        </ul>
+        <p>Click on the links below to access the different parts of the application.</p>
+        <p>Enjoy!</p>
+        <h3>----------------------------------------------------</h3>
+        
+
+        {% block content1 %}
+        {% endblock %}
+        
+        <h3>----------------------------------------------------</h3>
+        <h2 id="prevision">Prevision</h2>
+        <div class="gray-block">
+            <div style="background-color: lightgray; height: 100%; display: flex; align-items: center; justify-content: center;">
+                <p>No data is entered yet</p>
+            </div>
+        </div>
+        <h2 id="history">History</h2>
+        <div class="gray-block">
+            <div style="background-color: lightgray; height: 100%; display: flex; align-items: center; justify-content: center;">
+                <p>No data is entered yet</p>
+            </div>
+        </div>
+        <h2 id="infos">Infos</h2>
+        <div class="gray-block">
+            <div style="background-color: lightgray; height: 100%; display: flex; align-items: center; justify-content: center;">
+                <p>No data is entered yet</p>
+            </div>
+        </div>
     </div>
 </div>
 <a href="{% url 'home' %}">return to home</a>
