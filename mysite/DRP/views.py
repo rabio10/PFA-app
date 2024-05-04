@@ -7,6 +7,12 @@ import pandas as pd
 def DRP_app(request):
     return render(request, 'DRP/DRP_app.html')
 
+def generale(request):
+    return render(request, 'DRP/generale.html')
+
+def prevision(request):
+    return render(request, 'DRP/prevision.html')
+
 def visualize_data(request):
     # Your code to prepare the dataframe
     # Example:

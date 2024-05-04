@@ -5,7 +5,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.DRP_app, name='DRP'),
-    path('vis/', views.visualize_data, name='visualize_data'),
+    path('generale/', views.generale, name='generale'),
+    path('prevision/', views.prevision, name='prevision'),
 ]
 
 if settings.DEBUG:
