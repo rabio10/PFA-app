@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-<script src="https://cdn.plot.ly/plotly-2.31.1.min.js" charset="utf-8"></script>
-
-
 
 <div class="d-flex">
     {% include 'DRP/sidebar.html' %}
     <div class="w-100"> 
         <div class="m-3">
             <h1 class="text-center">DRP APP</h1>
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
+              
             
                 {% block content2 %}
                 {% endblock %}
@@ -17,11 +18,4 @@
         </div>
     </div>
 </div>
-
-
-
-        
-        
-    
-
 {% endblock %} 

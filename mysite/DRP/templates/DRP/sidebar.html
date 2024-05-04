@@ -1,19 +1,19 @@
 <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px; height: 89vh;">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+    <a href="{% url 'DRP' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
       <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
       <span class="fs-4">Dashboard</span>
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a href="{% url 'generale' %}" class="nav-link text-white" aria-current="page">
+        <a href="{% url 'generale' %}" class="nav-link text-white" aria-current="page" data-bs-toggle="tooltip">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
           Generale
         </a>
       </li>
       <hr style="width: 50px;">
       <li>
-        <a href="{% url 'prevision' %}" class="nav-link text-white">
+        <a href="{% url 'prevision' %}" class="nav-link text-white" data-bs-toggle="tooltip">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
           Prévisions
         </a>

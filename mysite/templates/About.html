@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="text-center p-5">
-    <h1 class="display-5 fw-bolder mb-2">A Propos de l'application</h1>
+<section class="bg-dark py-0">
+  <div class="text-center p-5">
+    <h1 class="display-5 fw-bolder mb-2 text-white">A Propos de l'application</h1>
 </div>
+</section>
+
 <!-- Content Row-->
 <div class="row gx-4 gx-lg-5 p-5 m-2">
     <div class="col-md-4 mb-5">
@@ -36,7 +39,15 @@
 </div>
 
 <!--accordions -->
-<div class="accordion center m-5" id="accordionPanelsStayOpenExample">
+<section class="bg-dark p-5">
+  <div class="text-center m-0 p-0">
+  <h5 class="display-6 fw-bolder text-white">FAQ</h5>
+</div>
+</section>
+
+
+<div class="d-flex flex-column flex-md-row p-1 gap-4 py-md-1 align-items-center justify-content-center">
+  <div class="accordion p-5" style="width: 1000px;" id="accordionPanelsStayOpenExample">
     <div class="accordion-item">
       <h2 class="accordion-header">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
@@ -74,5 +85,7 @@
       </div>
     </div>
   </div>
+</div>
+
 
 {% endblock %} 
