@@ -1,20 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="d-flex">
+<div class="d-flex ">
     {% include 'DRP/sidebar.html' %}
     <div class="w-100"> 
-        <div class="m-3">
-            <h1 class="text-center">DRP APP</h1>
-            <div>
-                <canvas id="myChart"></canvas>
-            </div>
-              
-            
-                {% block content2 %}
-                {% endblock %}
-            
-            
+        <div class="m-3">  
+            {% block content2 %}
+            {% endblock %} 
         </div>
     </div>
 </div>

@@ -1,0 +1,109 @@
+{% extends 'DRP/DRP_app.html' %}
+{% block content2 %}
+
+  <div class="container center">
+    
+    <form class="justify-content-center px-5 mx-5 py-1 rounded ">
+        <div id="centralwarehouse" class="justify-content-center px-5 mx-5 py-2 rounded">
+            <h3>Paramètre de l'entrepôt centrale</h3>
+            <div class="form-group">
+                <label for="centralWarehouseName">Nom Entrepôt Centrale</label>
+                <input type="text" class="form-control" id="centralWarehouseName" placeholder="Nom Entrepôt Central">
+            </div>
+            <div class="form-group">
+                <label for="address">Ville</label>
+                <select class="form-select" aria-label="Sélectionner la Ville">
+                  <option selected>Sélectionner une Ville</option>
+                    <option value="1">Casablanca</option>
+                    <option value="2">Mohammedia</option>
+                    <option value="3">Rabat</option>
+                    <option value="4">Tanger</option>
+                    <option value="5">Fes</option>
+                    <option value="6">Marrakech</option>
+                    <option value="7">Agadir</option>
+                    <option value="8">Meknes</option>
+                    <option value="9">Oujda</option>
+                    <option value="10">Kenitra</option>
+                    <option value="13">El Jadida</option>
+                    <option value="17">Tetouan</option>
+                    <option value="19">Laayoune</option>
+                    <option value="21">Khouribga</option>
+                    <option value="22">Beni Mellal</option>
+                </select>            </div>
+            <div class="form-group">
+                <label for="centralStock">Stock Disponible </label>
+                <input type="number" class="form-control" id="centralStock" placeholder="Stock Disponible dans l'Entrepôt">
+            </div>
+            <button type="submit" class="btn btn-success mt-3">Submit</button>
+            <hr class="deep-purple accent-2 mb-4 mt-4 mx-auto" style="width: 60%;">
+        </div> 
+        
+      <div id="depots" class="justify-content-center px-5 mx-5 rounded" >
+        <div class="depot">
+          <h3>Ajouter Dépôt</h3>
+          <div class="form-group">
+            <label for="depotName">Nom Dépôt</label>
+            <input type="text" class="form-control" id="depotName" placeholder="Nom Dépôt">
+          </div>
+          <div class="form-group">
+            <label for="depotName">Ville</label>
+            <select class="form-select" aria-label="Sélectionner la Ville">
+              <option selected>Sélectionner une Ville</option>
+                <option value="1">Casablanca</option>
+                <option value="2">Mohammedia</option>
+                <option value="3">Rabat</option>
+                <option value="4">Tanger</option>
+                <option value="5">Fes</option>
+                <option value="6">Marrakech</option>
+                <option value="7">Agadir</option>
+                <option value="8">Meknes</option>
+                <option value="9">Oujda</option>
+                <option value="10">Kenitra</option>
+                <option value="13">El Jadida</option>
+                <option value="17">Tetouan</option>
+                <option value="19">Laayoune</option>
+                <option value="21">Khouribga</option>
+                <option value="22">Beni Mellal</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="depotStock">Stock Disponible</label>
+            <input type="number" class="form-control" id="depotStock" placeholder="Stock Disponible dans le Dépôt">
+          </div>
+          <div class="mb-3">
+            <label for="historicalFile" class="form-label">Fichier de l'Historique</label>
+            <input class="form-control" type="file" id="historicalFile">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">+ Ajouter Dépôt</button>
+      </div>
+      <hr class="deep-purple accent-2 mb-4 mt-4 mx-auto" style="width: 60%;">
+
+    </form>
+
+    <!--liste des depots-->
+    <div class="justify-content-center px-5 mx-5 py-1 rounded">
+      <div class="justify-content-center px-5 mx-5 py-2 rounded" >
+        <h3>Liste des dépots  </h3>
+        <!--ici la debut de liste des depot dans des cards--> 
+        <div class="card text-bg-light mb-3">
+          <div class="card-header">Nom de dépot : marjane depot</div>
+          <div class="card-body">
+            <h6>Ville : Casablanca</h6>
+            <h6>Stock Disponible : 500</h6>
+          </div>
+        </div>
+
+        <div class="card text-bg-light mb-3">
+          <div class="card-header">Nom de dépot : depot de Mohammedia</div>
+          <div class="card-body">
+            <h6>Ville : Mohammedia</h6>
+            <h6>Stock Disponible : 100</h6>
+          </div>
+        <!--ici la fin de liste des depot dans des cards-->
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

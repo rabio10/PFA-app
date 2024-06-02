@@ -7,6 +7,9 @@ urlpatterns = [
     path('', views.DRP_app, name='DRP'),
     path('generale/', views.generale, name='generale'),
     path('prevision/', views.prevision, name='prevision'),
+    path('historique/', views.historique, name='historique'),
+    path('planification/', views.planification, name='planification'),
+    path('parametre/', views.parametre, name='parametre'),
 ]
 
 if settings.DEBUG:

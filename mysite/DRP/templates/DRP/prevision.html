@@ -1,12 +1,203 @@
 {% extends 'DRP/DRP_app.html' %}
 {% block content2 %}
-<h1>Prevision page  </h1>
-<div>
-    <div class="mx-3 my-5">
-        <h5 class="text-center text-primary">Graph de prévision</h5>
-        <div class="bg-secondary bg-opacity-25 px-5 py-3 rounded">
-            <canvas id="prevision-Chart"></canvas>
-        </div> 
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs " id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Graph de prévision</button>
+    </li>
+    <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Tableau des prévision</button>
+    </li>
+    <!--unused tabs-->
+    <!--
+    <li class="nav-item" role="presentation">
+    <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button" role="tab" aria-controls="messages" aria-selected="false">Messages</button>
+    </li>
+    <li class="nav-item" role="presentation">
+    <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Settings</button>
+    </li>
+    -->
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <div class="d-flex flex-column flex-md-row p-1 gap-4 py-md-1 align-items-center justify-content-center">
+            <div class="m3">
+                <h5 class="text-center fw-bolder">Graph de prévision</h5>
+                <div class="px-5 py-3 rounded shadow bg-body-tertiary" style="height: 500px; width:1000px;">
+                    <canvas id="myChart"></canvas>
+                </div> 
+            </div>
+        </div>
     </div>
+    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+        <div class="container">
+            <section class=" p-3">
+                <div class="text-center m-0 p-0">
+                <h5 class=" fw-bolder">Tableau des prévision</h5>
+                </div>
+            </section>
+
+            <!--tableau de prevision -->
+            
+            <form id="trimesterForm" class="form-inline row g-2">
+                <label class="my-1 mr-2" for="trimesterSelect">Choisir la Trimester:</label>
+                <select class="form-select my-1 mx-2 mr-sm-2 col-auto" id="trimesterSelectPrev" style="width: 30%;">
+                  <option value="1">Trimester 1 (Semaines 1-13)</option>
+                  <option value="2">Trimester 2 (Semaines 14-26)</option>
+                  <option value="3">Trimester 3 (Semaines 27-39)</option>
+                  <option value="4">Trimester 4 (Semaines 40-52)</option>
+                </select>
+              </form>
+
+            <div class="container d-flex justify-content-center text-center ">
+                <div  class="row" style="width: 80%;">
+                    <div class="col"></div>
+                    <div class="col-lg-7">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Numéro de Semaine</th>
+                                <th>Prévision</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tablePrev">
+                            <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+            <!--tableau de prevision -->
+            <!--
+            <div class="container">
+                <table id="myTable">
+                <thead>
+                    <tr>
+                    <th>Months</th>
+                    <th>Janvier</th>
+                    <th>Fevrier</th>
+                    <th>Mars</th>
+                    <th>Avril</th>
+                    <th>Mai</th>
+                    <th>Juin</th>
+                    <th>Juillet</th>
+                    <th>Aout</th>
+                    <th>Septembre</th>
+                    <th>Octobre</th>
+                    <th>Novembre</th>
+                    <th>Decembre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <th scope="row">Historique</th>
+                    <td>25</td>
+                    <td>58</td>
+                    <td>98</td>
+                    <td>25</td>
+                    <td>58</td>
+                    <td>98</td>
+                    <td>25</td>
+                    <td>58</td>
+                    <td>98</td>
+                    <td>25</td>
+                    <td>58</td>
+                    <td>98</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">commande</th>
+                    <td>25</td>
+                    <td>58</td>
+                    <td>98</td>
+                    <td>25</td>
+                    <td>58</td>
+                    <td>98</td>
+                    <td>25</td>
+                    <td>5</td>
+                    <td>98</td>
+                    <td>25</td>
+                    <td>58</td>
+                    <td>98</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            -->
+        </div>
+    </div>
+            <!--fin tableau de prevision -->
+            <!--tableau de prevision (old) -->
+            <!--
+            <div class="d-flex flex-column flex-md-row p-1 gap-4 py-md-1 align-items-center justify-content-center ">
+                <div class="table-responsive bg-secondary bg-opacity-25 px-5 py-3 rounded" style="width: 1010px;">
+                    <table class="table table-bordered border-secondary table-striped table-hover">
+                        <caption>Tableau des prévision</caption>
+                        <thead class="table-light table-bordered border-secondary">
+                            <tr>
+                            <th scope="col">Months</th>
+                            <th scope="col">Janvier</th>
+                            <th scope="col">Fevrier</th>
+                            <th scope="col">Mars</th>
+                            <th scope="col">Avril</th>
+                            <th scope="col">Mai</th>
+                            <th scope="col">Juin</th>
+                            <th scope="col">Juillet</th>
+                            <th scope="col">Aout</th>
+                            <th scope="col">Septembre</th>
+                            <th scope="col">Octobre</th>
+                            <th scope="col">Novembre</th>
+                            <th scope="col">Decembre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <th scope="row">Prévision</th>
+                            <td>25</td>
+                            <td>58</td>
+                            <td>98</td>
+                            <td>25</td>
+                            <td>58</td>
+                            <td>98</td>
+                            <td>25</td>
+                            <td>58</td>
+                            <td>98</td>
+                            <td>25</td>
+                            <td>58</td>
+                            <td>98</td>
+                            </tr>
+                            <tr>
+                            <th scope="row">commande</th>
+                            <td>25</td>
+                            <td>58</td>
+                            <td>98</td>
+                            <td>25</td>
+                            <td>58</td>
+                            <td>98</td>
+                            <td>25</td>
+                            <td>58</td>
+                            <td>98</td>
+                            <td>25</td>
+                            <td>58</td>
+                            <td>98</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        -->
+
+    
+    <!--unused tabs-->
+    <!--
+    <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab" tabindex="0"><p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia voluptate nobis iusto dolor molestiae? Nesciunt dignissimos maxime blanditiis natus dolorum eveniet. In dolore aut eius aliquid illo! Nobis, fuga placeat?</p></div>
+    <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab" tabindex="0"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus hic voluptatem asperiores facere impedit alias ipsa eveniet, cum porro, consequatur corporis nobis cumque labore illo deserunt deleniti neque voluptas quam?</p></div>
+    -->
 </div>
+
+
+
 {% endblock %}

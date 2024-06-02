@@ -5,13 +5,22 @@ import pandas as pd
 
 # Create your views here.
 def DRP_app(request):
-    return render(request, 'DRP/DRP_app.html')
+    return render(request, 'DRP/generale.html')
 
 def generale(request):
     return render(request, 'DRP/generale.html')
 
 def prevision(request):
     return render(request, 'DRP/prevision.html')
+
+def historique(request):
+    return render(request, 'DRP/historique.html')
+
+def planification(request):
+    return render(request, 'DRP/planification.html')
+
+def parametre(request):
+    return render(request, 'DRP/parametre.html')
 
 def visualize_data(request):
     # Your code to prepare the dataframe

@@ -5,8 +5,6 @@ class Entrepot_central(models.Model):
     id_entrepot_central = models.AutoField(primary_key=True)
     nom_entrepot_central = models.CharField(max_length=100)
     adresse_entrepot_central = models.CharField(max_length=100)
-    telephone_entrepot_central = models.CharField(max_length=100)
-    email_entrepot_central = models.CharField(max_length=100)
     entrp_stock = models.IntegerField()
     entrp_prevision = models.FileField(upload_to='prevision_total/')
 
@@ -18,7 +16,6 @@ class Depot(models.Model):
     id_entrepot_central = models.ForeignKey(Entrepot_central, on_delete=models.CASCADE)
     nom_depot = models.CharField(max_length=100)
     zone_depot = models.CharField(max_length=100)
-    telephone_depot = models.CharField(max_length=100)
     stock_depot = models.IntegerField()
     prevision_depot = models.FileField(upload_to='prevision/')
 
