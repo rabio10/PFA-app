@@ -10,6 +10,9 @@ urlpatterns = [
     path('historique/', views.historique, name='historique'),
     path('planification/', views.planification, name='planification'),
     path('parametre/', views.parametre, name='parametre'),
+    path('create/', views.create_entrepot_central, name='create_entrepot_central'),
+    #path('success/', TemplateView.as_view(template_name="success.html"), name='success'),  # Add a success page if needed
+
 ]
 
 if settings.DEBUG:

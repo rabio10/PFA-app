@@ -1,7 +1,8 @@
 import plotly.graph_objs as go
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import pandas as pd
+from . import forms
 
 # Create your views here.
 def DRP_app(request):
@@ -50,8 +51,14 @@ def visualize_data(request):
 
     # Add frames for animation (if needed)
 
-    # Render the plotly graph as HTML
-    plot_html = fig.to_html(full_html=False, default_height=500, default_width=700)
-
-    # Render the template with the Plotly graph
-    return render(request, 'DRP/vis.html', {'plot_html': plot_html})
+# for the entrepot central form
+def create_entrepot_central(request):
+    if request.method == 'POST':
+        form = forms.EntrepotCentralForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('success')  # Redirect to a success page or another view
+    else:
+        form = EntrepotCentralForm()
+    
+    return render(request, 'create_entrepot_central.html', {'form': form})

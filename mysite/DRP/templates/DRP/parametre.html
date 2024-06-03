@@ -4,6 +4,7 @@
   <div class="container center">
     
     <form class="justify-content-center px-5 mx-5 py-1 rounded ">
+      {% csrf_token %}
         <div id="centralwarehouse" class="justify-content-center px-5 mx-5 py-2 rounded">
             <h3>Paramètre de l'entrepôt centrale</h3>
             <div class="form-group">
@@ -105,5 +106,10 @@
     </div>
   </div>
 
-
+  <h1>Create Entrepot Central</h1>
+  <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Submit</button>
+  </form>
 {% endblock %}

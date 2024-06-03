@@ -2,6 +2,7 @@ const ctx = document.getElementById('myChart');
 const firstChart = document.getElementById('first-Chart');
 
 //on va prendre les données de prévision depuis la base de données
+//-------Bar Graph de prévision de demande
 const dataPrevision = [12, 19, 3, 5, 2, 3, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44];
 new Chart(ctx, {
   type: 'bar',
@@ -23,6 +24,7 @@ new Chart(ctx, {
 });
 
 //après on va prendre ces données depuis la base de données à partir d'un fichier Json ou API ?
+//-------Line Graph de historique de demande (dashboard 1)
 const dataPreviousSemestre = [12, 19, 33, 25, 19, 16, 12, 19, 33, 25, 26, 20, 21];
 
 new Chart(previousData, {
@@ -45,6 +47,7 @@ options: {
 });
 
 //après on va prendre ces données depuis la base de données à partir d'un fichier Json ou API ?
+//-------Line Graph de prévision de demande (dashboard 2)
 const dataNextSemestre = [12, 19, 33, 30, 28, 30, 25, 19, 33, 36, 44, 40, 38];
 
 new Chart(nextData, {
