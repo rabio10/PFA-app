@@ -1,7 +1,7 @@
-import plotly.graph_objs as go
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 import pandas as pd
+from .forms import *
 
 # Create your views here.
 def DRP_app(request):
@@ -20,38 +20,37 @@ def planification(request):
     return render(request, 'DRP/planification.html')
 
 def parametre(request):
-    return render(request, 'DRP/parametre.html')
+    # getting the instance of the first entrepot in database
+    entrepot_central = Entrepot_central.objects.first()
+    # getting the list of depots
+    depots_list = Depot.objects.all()
 
-def visualize_data(request):
-    # Your code to prepare the dataframe
-    # Example:
-    data = {'x': [1, 2, 3, 4, 5], 'y': [5, 4, 3, 2, 1]}
-    df = pd.DataFrame(data)
+    form_entrepot = EntrepotCentralForm()
+    form_depot = DepotForm()
+    submitted_depot = False
+    submitted_entrepot = False
+    if request.method == 'POST':
+        form_type = request.POST.get('form_type')
+        if form_type == 'entrepot':
+            form_entrepot = EntrepotCentralForm(request.POST, instance=entrepot_central)
+            if form_entrepot.is_valid():
+                form_entrepot.save()
+                return HttpResponseRedirect('/DRP/parametre?submitted_entrepot=True')    
+        elif form_type == 'depot':
+            form_depot = DepotForm(request.POST)
+            if form_depot.is_valid():
+                form_depot = form_depot.save(commit=False)
+                form_depot.id_entrepot_central = entrepot_central
+                form_depot.save()
+                return HttpResponseRedirect('/DRP/parametre?submitted_depot=True')
+    else:
+        form_entrepot = EntrepotCentralForm(instance=entrepot_central)
+        form_depot = DepotForm()
+        if 'submitted_entrepot' in request.GET:
+            submitted_entrepot = True
+        elif 'submitted_depot' in request.GET:
+            submitted_depot = True
 
-    # Create a Plotly figure
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=df['x'], y=df['y'], mode='lines+markers', name='Data'))
+    return render(request, 'DRP/parametre.html' , {'form_entrepot': form_entrepot , 'form_depot': form_depot , 'submitted_entrepot': submitted_entrepot , 'submitted_depot': submitted_depot, 'depots_list': depots_list})
 
-    # Update layout for animation and effects
-    fig.update_layout(
-        title='Interactive Data Visualization',
-        xaxis_title='X Axis',
-        yaxis_title='Y Axis',
-        template='plotly_dark',  # Choose a template for dark mode
-        hovermode='x',  # Show hover info on nearest point on X axis
-        xaxis=dict(type='category'),  # Set X axis type to category for discrete data
-        updatemenus=[{'type': 'buttons',
-                      'buttons': [{'label': 'Play',
-                                   'method': 'animate',
-                                   'args': [None, {'frame': {'duration': 500, 'redraw': True}, 'fromcurrent': True}]
-                                  }]
-                     }]
-    )
 
-    # Add frames for animation (if needed)
-
-    # Render the plotly graph as HTML
-    plot_html = fig.to_html(full_html=False, default_height=500, default_width=700)
-
-    # Render the template with the Plotly graph
-    return render(request, 'DRP/vis.html', {'plot_html': plot_html})
