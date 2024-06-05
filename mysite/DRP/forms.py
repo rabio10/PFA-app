@@ -2,6 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from .models import *
 
+# ----------------------forms in parametre page----------------------
 CITY_CHOICES = [
     ('', 'Sélectionner une Ville'),
     ('Casablanca', 'Casablanca'),
@@ -50,4 +51,19 @@ class DepotForm(ModelForm):
             'nom_depot': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom Depot'}),
             'stock_depot': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Stock Disponible dans le Depot'}),
             'hist_data': forms.FileInput(attrs={'class': 'form-control', 'placeholder': 'Historique Data'}),
+        }
+
+#----------------------forms in historique page----------------------
+
+class DepotChoiceForm(forms.Form):
+    depot = forms.ModelChoiceField(
+        queryset=Depot.objects.all(),
+        empty_label='Sélectionner un Dépôt',
+        widget=forms.Select(attrs={'class': 'form-select', 'placeholder': 'Sélectionner un Dépôt'}),
+        label='Dépôt à afficher l historique'
+        )
+    class Meta:
+        fields = ('depot',)
+        labels = {
+            'depot': 'Dépôt à afficher l historique',
         }

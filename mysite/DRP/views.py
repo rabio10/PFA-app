@@ -14,7 +14,19 @@ def prevision(request):
     return render(request, 'DRP/prevision.html')
 
 def historique(request):
-    return render(request, 'DRP/historique.html')
+    form = DepotChoiceForm()
+    if request.method == 'POST':
+        form = DepotChoiceForm(request.POST)
+        if form.is_valid():
+            depot = form.cleaned_data['depot']
+            hist_data = pd.read_excel(depot.hist_data)
+            print(hist_data)
+            hist_data.columns = ['semaine', 'demande']
+            hist_data = hist_data.to_dict('records')
+            
+            return render(request, 'DRP/historique.html', {'form': form, 'hist_data': hist_data})
+
+    return render(request, 'DRP/historique.html', {'form': form})
 
 def planification(request):
     return render(request, 'DRP/planification.html')

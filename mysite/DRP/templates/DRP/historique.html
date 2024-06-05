@@ -1,19 +1,53 @@
 {% extends 'DRP/DRP_app.html' %}
 {% block content2 %}
-<div class="d-flex flex-column flex-md-row p-1 gap-4 py-md-1 align-items-center justify-content-center">
+<div class="d-flex flex-column flex-md-row p-1 gap-4 py-md-1 align-items-center justify-content-center border-bottom">
     <h3>Tableau d'historique</h3>
 </div>
-<div class="container border">
-  <table id="myTable" class="table table-bordered table-striped trimester-table px-5">
-    <thead>
-      <tr>
-        <th>Numéro de Semaine</th>
-        <th>Prévision</th>
-      </tr>
-    </thead>
-    <tbody id="tableHist">
-      <!-- Data will be populated here -->
-    </tbody>
-  </table>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Afficher Dépôt" class="btn btn-success">
+      </form>
+    </div>
+    <div class="col-lg-2">
+    </div>
+    <div class="col-lg-2">
+    </div>
+  </div>
 </div>
+
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <!--just to make the table in the center of the page-->
+      <div class="container">
+        <table  class="table table-bordered table-striped trimester-table px-5 col-3 justify-content-center align-items-center">
+          <thead>
+            <tr>
+              <th>Numéro de Semaine</th>
+              <th>demande</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Data will be populated here -->
+          {% for row in hist_data %}
+          <tr>
+            <td>{{ row.semaine }}</td>
+            <td>{{ row.demande }}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
 {% endblock %}

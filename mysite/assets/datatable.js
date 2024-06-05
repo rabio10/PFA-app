@@ -1,5 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const data = [
+//document.addEventListener('DOMContentLoaded', function() {
+    /*const data = [
         { week: 1, prevision: 100},
         { week: 2, prevision: 110},
         { week: 3, prevision: 120},
@@ -128,10 +128,13 @@ document.addEventListener('DOMContentLoaded', function() {
         { week: 126, prevision: 1350 },
         { week: 127, prevision: 1360 },
         { week: 128, prevision: 1370 },
-    ];
+    ];*/
+    /*
+    console.log('{{ histData | escapejs }}');
+    var histData = JSON.parse('{{ histData | escapejs }}');
 
     const tableBody = document.getElementById('tableHist');
-    data.forEach(d => {
+    histData.forEach(d => {
       const row = document.createElement('tr');
       row.innerHTML = `
         <td>${d.week}</td>
@@ -145,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
       fixedHeight: true,
     });
   });
-
+*/
 
 /*
 const dataTable = new simpleDatatables.DataTable("#myTable", {
@@ -218,7 +221,7 @@ const dataTable = new simpleDatatables.DataTable("#myTable", {
     // Add more rows as needed
 ];
   dataTable.rows.add(dataL);
-  /*
+  
  function populateTable(dataHist) {
   const tableBody = document.getElementById('tableHist');
   if (!tableBody) return;
