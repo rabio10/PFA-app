@@ -1,0 +1,24 @@
+# Ignore the virtual environment directory
+venv/
+
+# Ignore Django migration files
+*/migrations/*.py
+*/migrations/*.pyc
+*/migrations/__pycache__/
+
+# Ignore media files
+media/
+
+# Ignore Python cache files
+*.pyc
+__pycache__/
+
+# Ignore logs
+*.log
+
+# Ignore compiled files
+*.py[cod]
+
+
+
+

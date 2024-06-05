@@ -1,4 +1,8 @@
 from django.db import models
+from django.core.validators import FileExtensionValidator
+
+
+
 
 # Create your models here.
 class Entrepot_central(models.Model):
@@ -18,7 +22,7 @@ class Depot(models.Model):
     zone_depot = models.CharField(max_length=100, null=False, blank=False)
     stock_depot = models.IntegerField(null=False, blank=False)
     prevision_depot = models.FileField(upload_to='prevision/')
-    hist_data = models.FileField(upload_to='historique/',null=True, blank=True)
+    hist_data = models.FileField(upload_to='historique/',null=True, blank=True, validators=[FileExtensionValidator(['xlsx'])])
 
 
     def __str__(self):

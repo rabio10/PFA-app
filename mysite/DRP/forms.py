@@ -13,15 +13,16 @@ class EntrepotCentralForm(ModelForm):
     
     adresse_entrepot_central = forms.ChoiceField(
         choices=CITY_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-select', 'placeholder': 'Sélectionner la Ville'})
+        widget=forms.Select(attrs={'class': 'form-select', 'placeholder': 'Sélectionner la Ville'}),
+        label='Ville Entrepôt Central'
     )
     class Meta:
         model = Entrepot_central
         fields = ('nom_entrepot_central', 'adresse_entrepot_central', 'entrp_stock')
         labels = {
-            'nom_entrepot_central': 'Nom Entrepot Central',
-            'adresse_entrepot_central': 'Adresse Entrepot Central',
-            'entrp_stock': 'Stock Entrepot Central',
+            'nom_entrepot_central': 'Nom Entrepôt Central',
+            'adresse_entrepot_central': 'Ville Entrepot Central',
+            'entrp_stock': 'Stock Entrepôt Central',
         }
         widgets = {
             'nom_entrepot_central': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom Entrepot Central'}),
@@ -32,17 +33,18 @@ class EntrepotCentralForm(ModelForm):
 class DepotForm(ModelForm):
     zone_depot = forms.ChoiceField(
         choices=CITY_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-select', 'placeholder': 'Sélectionner la Ville'})
+        widget=forms.Select(attrs={'class': 'form-select', 'placeholder': 'Sélectionner la Ville'}),
+        label='Ville Dépôt'
     )
 
     class Meta:
         model = Depot
         fields = ('nom_depot', 'zone_depot', 'stock_depot' , 'hist_data')
         labels = {
-            'nom_depot': 'Nom Depot',
-            'zone_depot': 'Zone Depot',
-            'stock_depot': 'Stock Depot',
-            'hist_data': 'Historique Data',
+            'nom_depot': 'Nom Dépôt',
+            'zone_depot': 'Ville Dépôt',
+            'stock_depot': 'Stock Dépôt',
+            'hist_data': 'Données Historique (min 1 an, max 3 ans en format xlsx)',
         }
         widgets = {
             'nom_depot': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom Depot'}),

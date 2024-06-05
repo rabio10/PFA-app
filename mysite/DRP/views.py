@@ -37,7 +37,7 @@ def parametre(request):
                 form_entrepot.save()
                 return HttpResponseRedirect('/DRP/parametre?submitted_entrepot=True')    
         elif form_type == 'depot':
-            form_depot = DepotForm(request.POST)
+            form_depot = DepotForm(request.POST, request.FILES)
             if form_depot.is_valid():
                 form_depot = form_depot.save(commit=False)
                 form_depot.id_entrepot_central = entrepot_central
