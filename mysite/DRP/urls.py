@@ -10,6 +10,7 @@ urlpatterns = [
     path('historique/', views.historique, name='historique'),
     path('planification/', views.planification, name='planification'),
     path('parametre/', views.parametre, name='parametre'),
+    path('prevision_total_json/', views.prevision_total_json, name='prevision_total_json'),
 ]
 
 if settings.DEBUG:

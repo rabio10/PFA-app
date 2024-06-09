@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+</br>
+<main class="form-register w-100 m-auto shadow bg-body-tertiary rounded-4 border">
+<form  method="post" action="{% url 'register' %}">
+    {% csrf_token %}
+    
+    <h1 class="h3 mb-3 fw-normal">Please Register</h1>
+    {% if form.errors %}
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <div>
+                <strong>Oh snap!</strong> Invalid data.
+            </div>
+        </div>
+    {% endif %}
+
+    {{ form.as_p }}
+    
+    <button class="btn btn-primary w-100 py-2" type="submit">Register</button>
+    <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
+  </form>
+</main>
+</br>
+</br>
+</br>
+</br>
+{% endblock %}

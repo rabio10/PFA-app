@@ -39,7 +39,36 @@
                 <h5 class=" fw-bolder">Tableau des prévision</h5>
                 </div>
             </section>
-
+            <!--test de prevision-->
+            <div class="container">
+                <div class="row justify-content-center">
+                  <div class="col-lg-6">
+                    <!--just to make the table in the center of the page-->
+                    <div class="container">
+                      <table  class="table table-bordered table-striped trimester-table px-5 col-3 justify-content-center align-items-center">
+                        <thead>
+                          <tr>
+                            <th>Numéro de Semaine</th>
+                            <th>demande</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- Data will be populated here -->
+                        {% for row in dic_prevision_total %}
+                        <tr>
+                          <td>{{ row.semaine }}</td>
+                          <td>{{ row.prevision }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+              
+                  </div>
+                </div>
+              </div>
+              
+              
             <!--tableau de prevision -->
             
             <form id="trimesterForm" class="form-inline row g-2">
@@ -71,6 +100,8 @@
                     <div class="col"></div>
                 </div>
             </div>
+
+           
             <!--tableau de prevision -->
             <!--
             <div class="container">

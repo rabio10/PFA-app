@@ -1,8 +1,22 @@
 const ctx = document.getElementById('myChart');
 const firstChart = document.getElementById('first-Chart');
 
+// envoyer GET request pour récupérer les données de prévision total
+document.addEventListener('DOMContentLoaded', (event) => {
+  fetch('/prevision_total_json/')
+      .then(response => response.json())
+      .then(data => {
+          console.log(data);  // Log the entire data for debugging
+          const totals = data.map(item => item.total);
+          console.log(totals);  // Log the totals array for debugging
+          // Now you have the array of totals from the 2nd column
+      })
+      .catch(error => console.error('Error fetching data:', error));
+});
+
+
 //on va prendre les données de prévision depuis la base de données
-const dataPrevision = [12, 19, 3, 5, 2, 3, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44, 20, 12, 19, 33, 55, 44];
+const dataPrevision = [15, 14, 18, 40, 22, 17, 22, 24, 24, 31, 41, 56, 48, 53, 61, 64, 67, 65, 73, 88, 80, 81, 80, 78, 78, 77, 82, 79, 64, 64, 63, 58, 63, 58, 61, 55, 45, 43, 37, 26, 34, 30, 29, 29, 30, 23, 20, 24, 24, 22, 19, 17];
 new Chart(ctx, {
   type: 'bar',
   data: {
@@ -23,7 +37,7 @@ new Chart(ctx, {
 });
 
 //après on va prendre ces données depuis la base de données à partir d'un fichier Json ou API ?
-const dataPreviousSemestre = [12, 19, 33, 25, 19, 16, 12, 19, 33, 25, 26, 20, 21];
+const dataPreviousSemestre = [41,37,32,20,27,26,20,17,19,26,20,16,16];
 
 new Chart(previousData, {
 type: 'line',
@@ -45,7 +59,7 @@ options: {
 });
 
 //après on va prendre ces données depuis la base de données à partir d'un fichier Json ou API ?
-const dataNextSemestre = [12, 19, 33, 30, 28, 30, 25, 19, 33, 36, 44, 40, 38];
+const dataNextSemestre = [15, 14, 18, 40, 22, 17, 22, 24, 24, 31, 41, 56, 48];
 
 new Chart(nextData, {
 type: 'line',
@@ -70,7 +84,7 @@ options: {
 //polar chart
 
 //après on va prendre ces données par calcule et depuis base de données
-const dataPerTrimestre = [11, 16, 7, 9];
+const dataPerTrimestre = [372, 945, 772, 327];
 
 new Chart(polarChart,{
   type: 'polarArea',

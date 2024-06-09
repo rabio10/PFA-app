@@ -80,17 +80,25 @@
                 <!-- Dropdown menu -->
                 
                 <ul class="dropdown-menu dropdown-menu-end p-1" aria-labelledby="navbarDropdown">
+                  {% if user.is_authenticated %}
                   <li class="my-2 d-flex align-items-center"><img
                       src="https://mdbootstrap.com/img/Photos/Avatars/img%20(4).jpg" class="rounded-circle img-fluid me-1"
-                      height='25' width='25'><span> User 1</span></li>
-                  
-                  <li><a class="dropdown-item" href="#">Manage Profilses</a></li>
+                      height='25' width='25'><span> {{ user.username }}</span></li>
                   <li>
                     <hr class="dropdown-divider" />
                   </li>
-                  <li><a class="dropdown-item" href="#">Your Account</a></li>
-                  <li><a class="dropdown-item" href="#">Help</a></li>
-                  <li><a class="dropdown-item" href="#">Log Out</a></li>
+                  <li><a class="dropdown-item" href="{% url 'parametre' %}">Your Account</a></li>
+                  <li><a class="dropdown-item" href="{% url 'about' %}">Help</a></li>
+                  <li>
+                    <form action="{% url 'logout' %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="dropdown-item">Log Out</button>
+                    </form>
+                  </li>
+                  {% else %}
+                  <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+                  <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+                  {% endif %}
                 </ul>
               </li>
             </ul>
@@ -101,6 +109,8 @@
 
     </header>
     <main>
+      
+
         {% block content %}
         {% endblock %}
     </main>
