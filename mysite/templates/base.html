@@ -56,19 +56,24 @@
               <li class="nav-item">
                 <a class="nav-link" href="/about">About</a>
               </li>
+              {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'DRP' %}">DRP App</a>
+                <a class="nav-link" href="{% url 'DRP' %}">Tableau de Bord</a>
               </li>
+              {% endif %}
             </ul>
             <!-- Left links -->
 
             <!-- Search form -->
+             
             <form class="d-flex input-group w-auto justify-content-start">
-              <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
-              <button class="btn btn-outline-primary" type="button" data-mdb-ripple-color="dark" style="padding: .45rem 1.5rem .35rem;">
-                Search
-              </button>
+              {% if user.is_authenticated %}
+              {% else %}
+              <a class="btn btn-primary" data-mdb-ripple-color="dark" style="padding: .45rem 1.5rem .35rem;" href="{% url 'login' %}" role="button">Login</a>
+              <a class="btn btn-outline-primary" data-mdb-ripple-color="dark" style="padding: .45rem 1.5rem .35rem;" href="{% url 'register' %}" role="button">Register</a>
+              {% endif %}
             </form>
+            
             <ul class="navbar-nav mb-2 mb-lg-0">
               
               <li class="nav-item dropdown">
@@ -76,14 +81,28 @@
                   aria-expanded="false">
                   <img src="https://t3.ftcdn.net/jpg/05/53/79/60/360_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg" class="rounded-circle img-fluid"
                     height='25' width='25'>
+                    <span> {{ user.username }}</span>
                 </a>
                 <!-- Dropdown menu -->
                 
                 <ul class="dropdown-menu dropdown-menu-end p-1" aria-labelledby="navbarDropdown">
                   {% if user.is_authenticated %}
                   <li class="my-2 d-flex align-items-center"><img
-                      src="https://mdbootstrap.com/img/Photos/Avatars/img%20(4).jpg" class="rounded-circle img-fluid me-1"
-                      height='25' width='25'><span> {{ user.username }}</span></li>
+                      src="https://t3.ftcdn.net/jpg/05/53/79/60/360_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg" class="rounded-circle img-fluid me-1"
+                      height='25' width='25'><span> {{ user.username }}</span>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'generale' %}">Tableau de Bord</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'prevision' %}">Prévision</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'historique' %}">Historique</a>
+                  </li>
                   <li>
                     <hr class="dropdown-divider" />
                   </li>
@@ -98,6 +117,7 @@
                   {% else %}
                   <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
                   <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+                  <li><a class="dropdown-item" href="{% url 'about' %}">Help</a></li>
                   {% endif %}
                 </ul>
               </li>
@@ -165,9 +185,11 @@
                   <p>
                     <a class="text-white" href="{% url 'home' %}">Page d'Acceuil</a>
                   </p>
+                  {% if user.is_authenticated %}
                   <p>
-                    <a class="text-white" href="{% url 'DRP' %}">DRP App</a>
+                    <a class="text-white" href="{% url 'DRP' %}">Tableau de Bord</a>
                   </p>
+                  {% endif %}
                   <p>
                     <a class="text-white" href="yoururlhere">Compte</a>
                   </p>

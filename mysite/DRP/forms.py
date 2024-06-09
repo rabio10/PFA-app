@@ -32,7 +32,7 @@ class EntrepotCentralForm(ModelForm):
 
 # create a depot form
 class DepotForm(ModelForm):
-    zone_depot = forms.ChoiceField(
+    adresse_depot = forms.ChoiceField(
         choices=CITY_CHOICES,
         widget=forms.Select(attrs={'class': 'form-select', 'placeholder': 'Sélectionner la Ville'}),
         label='Ville Dépôt'
@@ -40,10 +40,10 @@ class DepotForm(ModelForm):
 
     class Meta:
         model = Depot
-        fields = ('nom_depot', 'zone_depot', 'stock_depot' , 'hist_data')
+        fields = ('nom_depot', 'adresse_depot', 'stock_depot' , 'hist_data')
         labels = {
             'nom_depot': 'Nom Dépôt',
-            'zone_depot': 'Ville Dépôt',
+            'adresse_depot': 'Ville Dépôt',
             'stock_depot': 'Stock Dépôt',
             'hist_data': 'Données Historique (min 1 an, max 3 ans en format xlsx)',
         }
@@ -53,6 +53,22 @@ class DepotForm(ModelForm):
             'hist_data': forms.FileInput(attrs={'class': 'form-control', 'placeholder': 'Historique Data'}),
         }
 
+#delete depot form
+class DeleteDepotForm(forms.Form):
+    depot = forms.ModelChoiceField(
+        queryset=Depot.objects.all(),
+        empty_label='Sélectionner un Dépôt',
+        widget=forms.Select(attrs={'class': 'form-select', 'placeholder': 'Sélectionner un Dépôt'}),
+        label='Dépôt à supprimer'
+        )
+    class Meta:
+        fields = ('depot',)
+        labels = {
+            'depot': 'Dépôt à supprimer',
+        }
+        widgets = {
+            'depot': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Sélectionner un Dépôt'}),
+        }
 #----------------------forms in historique page----------------------
 
 class DepotChoiceForm(forms.Form):

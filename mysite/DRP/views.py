@@ -142,8 +142,10 @@ def parametre(request):
 
     form_entrepot = EntrepotCentralForm()
     form_depot = DepotForm()
+    form_delete_depot = DeleteDepotForm()
     submitted_depot = False
     submitted_entrepot = False
+    submitted_delete_depot = False
     if request.method == 'POST':
         form_type = request.POST.get('form_type')
         if form_type == 'entrepot':
@@ -168,14 +170,23 @@ def parametre(request):
                 form_depot.prevision_depot = xlsx_prevision_file
                 form_depot.save()
                 return HttpResponseRedirect('/DRP/parametre?submitted_depot=True')
+        elif form_type == 'delete_depot':
+            form_delete_depot = DeleteDepotForm(request.POST)
+            if form_delete_depot.is_valid():
+                depot = form_delete_depot.cleaned_data['depot']
+                depot.delete()
+                return HttpResponseRedirect('/DRP/parametre?submitted_delete_depot=True')
     else:
         form_entrepot = EntrepotCentralForm(instance=entrepot_central)
         form_depot = DepotForm()
+        form_delete_depot = DeleteDepotForm()
         if 'submitted_entrepot' in request.GET:
             submitted_entrepot = True
         elif 'submitted_depot' in request.GET:
             submitted_depot = True
+        elif 'submitted_delete_depot' in request.GET:
+            submitted_delete_depot = True
 
-    return render(request, 'DRP/parametre.html' , {'form_entrepot': form_entrepot , 'form_depot': form_depot , 'submitted_entrepot': submitted_entrepot , 'submitted_depot': submitted_depot, 'depots_list': depots_list})
+    return render(request, 'DRP/parametre.html' , {'form_entrepot': form_entrepot , 'form_depot': form_depot , 'submitted_entrepot': submitted_entrepot , 'submitted_depot': submitted_depot, 'depots_list': depots_list, 'form_delete_depot': form_delete_depot, 'submitted_delete_depot': submitted_delete_depot})
 
 
