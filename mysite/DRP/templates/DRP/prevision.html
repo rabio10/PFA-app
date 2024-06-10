@@ -32,6 +32,11 @@
             </div>
         </div>
     </div>
+    <!--script for the graph-->
+    <script>
+        window.dicPrevisionTotal = JSON.parse('{{ dic_prevision_total_json|safe }}');
+    </script>
+    <!--end of script for the graph-->
     <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
         <div class="container">
             <section class=" p-3">
@@ -40,33 +45,7 @@
                 </div>
             </section>
             <!--test de prevision-->
-            <div class="container">
-                <div class="row justify-content-center">
-                  <div class="col-lg-6">
-                    <!--just to make the table in the center of the page-->
-                    <div class="container">
-                      <table  class="table table-bordered table-striped trimester-table px-5 col-3 justify-content-center align-items-center">
-                        <thead>
-                          <tr>
-                            <th>Numéro de Semaine</th>
-                            <th>demande</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <!-- Data will be populated here -->
-                        {% for row in dic_prevision_total %}
-                        <tr>
-                          <td>{{ row.semaine }}</td>
-                          <td>{{ row.prevision }}</td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                      </table>
-                    </div>
-              
-                  </div>
-                </div>
-              </div>
+            
               
               
             <!--tableau de prevision -->
@@ -102,124 +81,10 @@
             </div>
 
            
-            <!--tableau de prevision -->
-            <!--
-            <div class="container">
-                <table id="myTable">
-                <thead>
-                    <tr>
-                    <th>Months</th>
-                    <th>Janvier</th>
-                    <th>Fevrier</th>
-                    <th>Mars</th>
-                    <th>Avril</th>
-                    <th>Mai</th>
-                    <th>Juin</th>
-                    <th>Juillet</th>
-                    <th>Aout</th>
-                    <th>Septembre</th>
-                    <th>Octobre</th>
-                    <th>Novembre</th>
-                    <th>Decembre</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <th scope="row">Historique</th>
-                    <td>25</td>
-                    <td>58</td>
-                    <td>98</td>
-                    <td>25</td>
-                    <td>58</td>
-                    <td>98</td>
-                    <td>25</td>
-                    <td>58</td>
-                    <td>98</td>
-                    <td>25</td>
-                    <td>58</td>
-                    <td>98</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">commande</th>
-                    <td>25</td>
-                    <td>58</td>
-                    <td>98</td>
-                    <td>25</td>
-                    <td>58</td>
-                    <td>98</td>
-                    <td>25</td>
-                    <td>5</td>
-                    <td>98</td>
-                    <td>25</td>
-                    <td>58</td>
-                    <td>98</td>
-                    </tr>
-                </tbody>
-                </table>
-            </div>
-            -->
+            
         </div>
     </div>
-            <!--fin tableau de prevision -->
-            <!--tableau de prevision (old) -->
-            <!--
-            <div class="d-flex flex-column flex-md-row p-1 gap-4 py-md-1 align-items-center justify-content-center ">
-                <div class="table-responsive bg-secondary bg-opacity-25 px-5 py-3 rounded" style="width: 1010px;">
-                    <table class="table table-bordered border-secondary table-striped table-hover">
-                        <caption>Tableau des prévision</caption>
-                        <thead class="table-light table-bordered border-secondary">
-                            <tr>
-                            <th scope="col">Months</th>
-                            <th scope="col">Janvier</th>
-                            <th scope="col">Fevrier</th>
-                            <th scope="col">Mars</th>
-                            <th scope="col">Avril</th>
-                            <th scope="col">Mai</th>
-                            <th scope="col">Juin</th>
-                            <th scope="col">Juillet</th>
-                            <th scope="col">Aout</th>
-                            <th scope="col">Septembre</th>
-                            <th scope="col">Octobre</th>
-                            <th scope="col">Novembre</th>
-                            <th scope="col">Decembre</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <th scope="row">Prévision</th>
-                            <td>25</td>
-                            <td>58</td>
-                            <td>98</td>
-                            <td>25</td>
-                            <td>58</td>
-                            <td>98</td>
-                            <td>25</td>
-                            <td>58</td>
-                            <td>98</td>
-                            <td>25</td>
-                            <td>58</td>
-                            <td>98</td>
-                            </tr>
-                            <tr>
-                            <th scope="row">commande</th>
-                            <td>25</td>
-                            <td>58</td>
-                            <td>98</td>
-                            <td>25</td>
-                            <td>58</td>
-                            <td>98</td>
-                            <td>25</td>
-                            <td>58</td>
-                            <td>98</td>
-                            <td>25</td>
-                            <td>58</td>
-                            <td>98</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        -->
+            
 
     
     <!--unused tabs-->

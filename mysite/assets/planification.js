@@ -132,7 +132,7 @@ document.getElementById('addDepotBtn').addEventListener('click', function() {
   });
 }
   
-  const dataPrev = [
+  /*const dataPrev = [
     // Sample data for 52 weeks
     { week: 1, prevision: 100},
     { week: 2, prevision: 110},
@@ -187,7 +187,9 @@ document.getElementById('addDepotBtn').addEventListener('click', function() {
     { week: 51, prevision: 600 },
     { week: 52, prevision: 610 },
     // Add data for all 52 weeks...
-  ];
+  ];*/
+  const dataPrev = window.dicPrevisionTotal;
+  console.log(dataPrev);
   
   function updateTablePrev(trimester) {
     const tableBody = document.getElementById('tablePrev');
@@ -196,11 +198,11 @@ document.getElementById('addDepotBtn').addEventListener('click', function() {
     const startWeek = (trimester - 1) * 13 + 1;
     const endWeek = startWeek + 12;
   
-    const filteredData = dataPrev.filter(d => d.week >= startWeek && d.week <= endWeek);
+    const filteredData = dataPrev.filter(d => d.semaine >= startWeek && d.semaine <= endWeek);
     filteredData.forEach(d => {
       const row = document.createElement('tr');
       row.innerHTML = `
-        <td>${d.week}</td>
+        <td>${d.semaine}</td>
         <td>${d.prevision}</td>
       `;
       tableBody.appendChild(row);
@@ -209,3 +211,14 @@ document.getElementById('addDepotBtn').addEventListener('click', function() {
   
   // Initialize table with the first trimester data
   updateTablePrev(1);
+
+  //--------------------------------------------------------------------------------
+  // find the biggest value in the prevision data
+  const maxPrevisionData = dataPrev.reduce((max, item) => item.prevision > max.prevision ? item : max, dataPrev[0]);
+
+  // maxPrevisionData now contains the data item with the highest prevision
+  const maxPrevision = maxPrevisionData.prevision;
+  const semaineOfMaxPrevision = maxPrevisionData.semaine;  
+  //put it in html 
+  document.getElementById('card').textContent = maxPrevision;
+  document.getElementById('semaineMax').textContent = `En Semaine ${semaineOfMaxPrevision}`;

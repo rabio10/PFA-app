@@ -12,7 +12,33 @@ def DRP_app(request):
     return render(request, 'DRP/generale.html')
 
 def generale(request):
-    return render(request, 'DRP/generale.html')
+    entrepot_central = Entrepot_central.objects.first()
+    if entrepot_central.entrp_prevision:
+        # get the xlsx file of prevision total of entrepot central and convert it to a dataframe
+        xlsx_prevision_total = entrepot_central.entrp_prevision
+        df_prevision_total = pd.read_excel(xlsx_prevision_total)
+        df_prevision_total.columns = ['semaine', 'prevision']
+        dic_prevision_total = df_prevision_total.to_dict('records')
+    else:
+        dic_prevision_total = caclul_prevision_total()
+        dic_prevision_total = df_prevision_total.to_dict('records')
+    # get the xlsx file of historique total of all depots and convert it to a dataframe
+    depots = Depot.objects.all()
+    hist_data_total = pd.DataFrame()
+    # check if there's a depot instance in the database
+    if depots:
+        for depot in depots:
+            hist_data = pd.read_excel(depot.hist_data)
+            hist_data.columns = ['semaine', 'demande']
+            # we sum the demandes of all depots to get the total demandes
+            hist_data_total = hist_data_total.add(hist_data, fill_value=0)
+        hist_data_total = hist_data_total.to_dict('records')
+    
+    #prevision_list = [dic['prevision'] for dic in dic_prevision_total if 'prevision' in dic]
+    #print(prevision_list)
+    dic_prevision_total_json = json.dumps(dic_prevision_total)
+    hist_data_total_json = json.dumps(hist_data_total)
+    return render(request, 'DRP/generale.html', {'dic_prevision_total': dic_prevision_total, 'dic_prevision_total_json': dic_prevision_total_json, 'hist_data_total': hist_data_total, 'hist_data_total_json': hist_data_total_json})
 
 #-------------------fonction pour calculer la prévision total de entrepot central
 def caclul_prevision_total():
@@ -56,17 +82,19 @@ def prevision_total_json(request):
     return JsonResponse(prevision_list, safe=False)
 
 def prevision(request):
-    '''
     entrepot_central = Entrepot_central.objects.first()
     if entrepot_central.entrp_prevision:
         xlsx_prevision_total = entrepot_central.entrp_prevision
         df_prevision_total = pd.read_excel(xlsx_prevision_total)
+        df_prevision_total.columns = ['semaine', 'prevision']
         dic_prevision_total = df_prevision_total.to_dict('records')
     else:
         dic_prevision_total = caclul_prevision_total()
-    prevision_list = [dic['prevision'] for dic in dic_prevision_total if 'prevision' in dic]
-    '''
-    return render(request, 'DRP/prevision.html')
+        dic_prevision_total = df_prevision_total.to_dict('records')
+    #prevision_list = [dic['prevision'] for dic in dic_prevision_total if 'prevision' in dic]
+    #print(prevision_list)
+    dic_prevision_total_json = json.dumps(dic_prevision_total)
+    return render(request, 'DRP/prevision.html',{'dic_prevision_total': dic_prevision_total, 'dic_prevision_total_json': dic_prevision_total_json})
 
 def historique(request):
     form = DepotChoiceForm()

@@ -46,10 +46,10 @@
         <div class="card-body shadow bg-body-tertiary rounded-4 border">
             <h5 class="card-title text-primary">Max. Demande Prévu</h5>
             <h6 class="card-substitle mb-2 text-muted">pendant une année</h6>
-            <div class="rounded-pill border">
-                <h1 class="card-text text-center">1500</h1>
+            <div class="rounded-pill border" >
+                <h1 class="card-text text-center" id="card">-</h1>
             </div>
-            <h6 class="card-text text-secondary">En Semaine 6</h6>
+            <h6 class="card-text text-secondary" id="semaineMax">En Semaine -</h6>
             
         </div>
     </div>
@@ -97,5 +97,10 @@
             </div>
         </div>
     </div>
+    <script>
+        //global variable for the data
+        window.dicPrevisionTotal = JSON.parse('{{ dic_prevision_total_json|safe }}');
+        window.histData = JSON.parse('{{ hist_data_total_json|safe }}');
+    </script>
 </div>
 {% endblock %}
