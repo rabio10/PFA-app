@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from django.http import JsonResponse
+from django.http import JsonResponse , FileResponse
 import pandas as pd
 from .forms import *
 import numpy as np
@@ -46,10 +46,10 @@ def caclul_prevision_total():
     prevision_np_total = np.zeros(52)
     # get the xlsx files of previons of all depots and convert them to dataframes and then to np arrays
     for depot in depots:
-        prevision_df = pd.read_excel(depot.prevision_depot)
-        prevision_df.columns = ['semaine', 'prevision']
+        prevision_df = pd.read_excel(depot.planning_depot)
+        prevision_df.columns = ['semaine', 'prevision', 'stock', 'commandes']
         prevision_np = prevision_df.values
-        prevision_np = prevision_np[:,1]
+        prevision_np = prevision_np[1:,3]
         prevision_np_total = prevision_np_total + prevision_np
     # convert the np array of prevision total to a dataframe
     df_prevision_total = pd.DataFrame({
@@ -57,6 +57,7 @@ def caclul_prevision_total():
         'prevision': np.round(prevision_np_total).astype(int)  # Second column contains the NumPy array elements
     })
     # convert the dataframe to a list of dictionaries
+    print(prevision_np_total)
     dic_prevision_total = df_prevision_total.to_dict('records')
     # saving the prevision total to database in xlsx file
     xlsx_prevision_total_path = 'prevision_total.xlsx'
@@ -82,15 +83,7 @@ def prevision_total_json(request):
     return JsonResponse(prevision_list, safe=False)
 
 def prevision(request):
-    entrepot_central = Entrepot_central.objects.first()
-    if entrepot_central.entrp_prevision:
-        xlsx_prevision_total = entrepot_central.entrp_prevision
-        df_prevision_total = pd.read_excel(xlsx_prevision_total)
-        df_prevision_total.columns = ['semaine', 'prevision']
-        dic_prevision_total = df_prevision_total.to_dict('records')
-    else:
-        dic_prevision_total = caclul_prevision_total()
-        dic_prevision_total = df_prevision_total.to_dict('records')
+    dic_prevision_total = caclul_prevision_total()
     #prevision_list = [dic['prevision'] for dic in dic_prevision_total if 'prevision' in dic]
     #print(prevision_list)
     dic_prevision_total_json = json.dumps(dic_prevision_total)
@@ -108,9 +101,167 @@ def historique(request):
             # returning the data to the template
             return render(request, 'DRP/historique.html', {'form': form, 'hist_data': hist_data})
     return render(request, 'DRP/historique.html', {'form': form})
+#-------------------fonction pour calculer la plannification et afficher
+def make_planning_depot(depot): # returns a list of dictionaries of the planning dataframe and saving xlsx to database
+    # getting the stock of the depot
+    stock = depot.stock_depot
+    # calculating the delay to receive the command of the depot
+    delays = np.array([
+        [1, 1, 1, 1, 2, 2, 1, 4, 1, 2, 1, 1, 4],
+        [1, 1, 1, 1, 1, 2, 1, 4, 1, 1,1, 1, 4],
+        [1 ,1, 1, 2, 4, 1, 2, 4, 2, 4, 1, 1, 4],
+        [1, 1, 2, 1, 1, 4, 1, 2, 1, 1, 2, 1, 4],
+        [2, 1 ,4, 1, 1, 4, 1, 4, 1, 1 ,2, 2 ,4],
+        [2, 2, 1, 4, 4, 1, 4, 4, 4, 4, 1 ,2, 4],
+        [1, 1, 2 ,1 ,1, 4, 1, 2, 1 ,2, 2, 1, 4],
+        [4, 4, 4, 2, 4, 4, 2, 1, 4,4 ,4 ,4 ,4],
+        [1 ,1 ,2 ,1 ,1 ,4 ,1, 4, 1, 1 ,1 ,1 ,4],
+        [2, 1, 4, 1 ,1, 4, 2, 4, 1, 1 ,4, 2 ,4],
+        [1, 1 ,1, 2 ,2 ,1 ,2 ,4 ,1 ,4, 1 ,1, 4],
+        [1, 1, 1, 1, 2 ,2, 1, 4, 1, 2 ,1 ,1 ,4],
+        [4, 4 ,4 ,4, 4 ,4 ,4, 4 ,4 ,4 ,4 ,4, 1]
+    ])
+    # Convert the delays matrix to a pandas DataFrame for better readability
+    cities = ["Casablanca", "Rabat", "Marrakech", "Fès", "Tanger", "Agadir", "Meknès", "Oujda", "Kénitra", "Tétouan", "Safi", "Mohammédia", "Laayoun"]
+    delays_df = pd.DataFrame(delays, index=cities, columns=cities)
+    # getting the instance of the first entrepot in database
+    entrepot_central = Entrepot_central.objects.first()
+    # getting the city of entrepot central
+    city_entrepot_central = entrepot_central.adresse_entrepot_central
+    # determining the delay to receive the command of the depot depending of the city of the depot and entrepot central
+    delay = delays_df.loc[city_entrepot_central, depot.adresse_depot]
+    #-------------------calcul de la planification
+    # getting the xlsx file of prevision of the depot and convert it to a dataframe
+    prevision = pd.read_excel(depot.prevision_depot)
+    prevision.columns = ['semaine', 'prevision']
+    # making the planning dataframe
+    planning_df = pd.DataFrame({
+        'semaine': range(1, 53),  # First column contains numbers from 1 to 52
+        'prevision': prevision['prevision'],  # Second column contains the prevision values
+        'stock': np.full(52, 0),  # Third column contains now empty strings
+        'commandes': np.full(52, 0)  # Third column contains the demandes values empty strings
+    })
+    # inserting first row of the planning dataframe
+    initial_row = pd.DataFrame({
+        'semaine': [0],
+        'prevision': [0],
+        'stock': [stock],
+        'commandes':[0]
+    })
+    # concatenate it
+    planning_df = pd.concat([initial_row, planning_df]).reset_index(drop=True)
+    # filling the planification dataframe
+    # iterate through all rows
+    for i in range(1,53):
+        stock = planning_df.iloc[i-1,2] - planning_df.iloc[i,1]
+        if stock > 0:
+            planning_df.iloc[i,2] = stock
+        else:
+            # lets make commande in the week before and register the stock
+            cmd = 50 # quantité de approv. de base
+            j = 1
+            while stock < -cmd: # trouver la quantité de commande necessaire
+                cmd = 50 * j
+                j += 1
+            planning_df.iloc[i,2] = stock + cmd
+            planning_df.iloc[i-delay,3] = cmd
+    # saving the planning dataframe to a xlsx file
+    print(planning_df) # printing the planning dataframe for DEBBUGGING
+    xlsx_planning_path = 'planning_depot.xlsx'
+    planning_df.to_excel(xlsx_planning_path, index=False)
+    xlsx_planning_file = File(open(xlsx_planning_path, 'rb'))
+    # saving the xlsx file in the database
+    depot.planning_depot = xlsx_planning_file
+    depot.save()
+    return planning_df.to_dict('records')
+
+def make_planning_entrepot(entrepot): # returns a list of dictionaries of the planning dataframe and saving xlsx to database
+    # getting the stock of the entrepot
+    stock = entrepot.entrp_stock
+    # stock of the entrepot
+    stock = entrepot.entrp_stock
+    # delay to receive the command of the entrepot
+    delay = 1
+    # getting the prevision of the entrepot
+    prevision = pd.read_excel(entrepot.entrp_prevision)
+    prevision.columns = ['semaine', 'prevision']
+    # making the planning dataframe
+    planning_df = pd.DataFrame({
+        'semaine': range(1, 53),  # First column contains numbers from 1 to 52
+        'prevision': prevision['prevision'],  # Second column contains the prevision values
+        'stock': np.full(52, 0),  # Third column contains now empty strings
+        'commandes': np.full(52, 0)  # Third column contains the demandes values empty strings
+    })
+    # inserting first row of the planning dataframe
+    initial_row = pd.DataFrame({
+        'semaine': [0],
+        'prevision': [0],
+        'stock': [stock],
+        'commandes':[0]
+    })
+    # concatenate it
+    planning_df = pd.concat([initial_row, planning_df]).reset_index(drop=True)
+    # filling the planification dataframe
+    # iterate through all rows
+    for i in range(1,53):
+        stock = planning_df.iloc[i-1,2] - planning_df.iloc[i,1]
+        if stock > 0:
+            planning_df.iloc[i,2] = stock
+        else:
+            # lets make commande in the week before and register the stock
+            cmd = 50 # quantité de approv. de base
+            j = 1
+            while stock < -cmd: # trouver la quantité de commande necessaire
+                cmd = 50 * j
+                j += 1
+            planning_df.iloc[i,2] = stock + cmd
+            planning_df.iloc[i-delay,3] = cmd
+    # saving the planning dataframe to a xlsx file
+    print(planning_df) # printing the planning dataframe for DEBBUGGING
+    xlsx_planning_path = 'planning_entrepot.xlsx'
+    planning_df.to_excel(xlsx_planning_path, index=False)
+    xlsx_planning_file = File(open(xlsx_planning_path, 'rb'))
+    # saving the xlsx file in the database
+    entrepot.entrp_planning = xlsx_planning_file
+    entrepot.save()
+    return planning_df.to_dict('records')
+
+DEPOT_OF_CHOICE = None
 
 def planification(request):
-    return render(request, 'DRP/planification.html')
+    # calculating the planning of entrepot central
+    entrepot_central = Entrepot_central.objects.first()
+    planning_entrepot = make_planning_entrepot(entrepot_central)
+    # making the form to choose the depot
+    form = DepotChoiceForm()
+    if request.method == 'POST':
+        form = DepotChoiceForm(request.POST)
+        if form.is_valid():
+            depot = form.cleaned_data['depot']
+            global DEPOT_OF_CHOICE
+            DEPOT_OF_CHOICE = depot
+            # calling the function of making the planning of the depot
+            # if the depot has prevision
+            
+            planning = make_planning_depot(depot)
+            # dictionnary to json
+            planning_json = json.dumps(planning)
+            # returning the data to the template
+            return render(request, 'DRP/planification.html', {'form': form, 'planning_json': planning_json, 'planning': planning, 'planning_entrepot': planning_entrepot})
+    
+    return render(request, 'DRP/planification.html',{'form': form, 'planning_entrepot': planning_entrepot})
+
+# download planning depot
+def download_planning_depot(request):
+    depot = Depot.objects.get(id_depot=DEPOT_OF_CHOICE.id_depot)
+    file_path = depot.planning_depot.path
+    return FileResponse(open(file_path, 'rb'), as_attachment=True, filename='planning_depot.xlsx')
+
+# download planning entrepot
+def download_planning_total(request):
+    entrepot_central = Entrepot_central.objects.first()
+    file_path = entrepot_central.entrp_planning.path
+    return FileResponse(open(file_path, 'rb'), as_attachment=True, filename='planning_entrepot.xlsx')
 
 #-------------------fonction pour calculer la prévision de depot
 def caclul_prevision(dataframe):
@@ -197,6 +348,12 @@ def parametre(request):
                 xlsx_prevision_file = File(open(xlsx_prevision_path, 'rb'))
                 form_depot.prevision_depot = xlsx_prevision_file
                 form_depot.save()
+                # calcule de la planification
+                make_planning_depot(form_depot)
+                # calculer la prévision total
+                #caclul_prevision_total()
+                #calculer la planification de entrepot central
+                #make_planning_entrepot(entrepot_central)
                 return HttpResponseRedirect('/DRP/parametre?submitted_depot=True')
         elif form_type == 'delete_depot':
             form_delete_depot = DeleteDepotForm(request.POST)

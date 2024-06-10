@@ -7,6 +7,17 @@ CITY_CHOICES = [
     ('', 'Sélectionner une Ville'),
     ('Casablanca', 'Casablanca'),
     ('Mohammedia', 'Mohammedia'),
+    ('Rabat', 'Rabat'),
+    ('Tanger', 'Tanger'),
+    ('Fes', 'Fes'),
+    ('Agadir', 'Agadir'),
+    ('Marrakech', 'Marrakech'),
+    ('Oujda', 'Oujda'),
+    ('Kenitra', 'Kenitra'),
+    ('Tetouan', 'Tetouan'),
+    ('Safi', 'Safi'),
+    ('Meknes', 'Meknes'),
+    ('Laayoune', 'Laayoune'),
     # Add more cities as needed
 ]
 # create a entrepot central form 
@@ -76,10 +87,10 @@ class DepotChoiceForm(forms.Form):
         queryset=Depot.objects.all(),
         empty_label='Sélectionner un Dépôt',
         widget=forms.Select(attrs={'class': 'form-select', 'placeholder': 'Sélectionner un Dépôt'}),
-        label='Dépôt à afficher l historique'
+        label='Dépôt à afficher '
         )
     class Meta:
         fields = ('depot',)
         labels = {
-            'depot': 'Dépôt à afficher l historique',
+            'depot': 'Dépôt à afficher ',
         }

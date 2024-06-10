@@ -118,6 +118,43 @@ document.getElementById('addDepotBtn').addEventListener('click', function() {
   
   // Initialize table with the first trimester data
   updateTable(1);
+  //--------------------------------------------------------------------------------
+  // plannification table de depots de choix dans la page de planification
+  const trimesterDepotSelect = document.getElementById('trimesterDepotSelect');
+  if (trimesterDepotSelect){
+    trimesterDepotSelect.addEventListener('change', function(event) {
+    event.preventDefault();
+    console.log('Trimester changed'); // Debug
+    const selectedTrimester = event.target.value;
+    updateTableDepot(selectedTrimester);
+  
+  });
+}
+
+const dataDepot = window.dicPlanningDepot
+console.log(dataDepot);
+
+function updateTableDepot(trimester) {
+  const tableDepots = document.getElementById('tableDepots');
+  if (!tableDepots) return; // Stop if the table body is not found
+  tableDepots.innerHTML = ''; // Clear existing table data
+  const startWeek = (trimester - 1) * 13 + 1;
+  const endWeek = startWeek + 12;
+
+  const filteredData = data.filter(d => d.semaine >= startWeek && d.semaine <= endWeek);
+  filteredData.forEach(d => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${d.semaine}</td>
+      <td>${d.prevision}</td>
+      <td>${d.stock}</td>
+      <td>${d.commandes}</td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
+ // Initialize table with the first trimester data
+ updateTableDepot(1);
 
   //--------------------------------------------------------------------------------
   // script de population des données de la table de prevision
@@ -220,5 +257,9 @@ document.getElementById('addDepotBtn').addEventListener('click', function() {
   const maxPrevision = maxPrevisionData.prevision;
   const semaineOfMaxPrevision = maxPrevisionData.semaine;  
   //put it in html 
-  document.getElementById('card').textContent = maxPrevision;
-  document.getElementById('semaineMax').textContent = `En Semaine ${semaineOfMaxPrevision}`;
+  // until card is loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('card').textContent = maxPrevision;
+    document.getElementById('semaineMax').textContent = `En Semaine ${semaineOfMaxPrevision}`;
+  });
+

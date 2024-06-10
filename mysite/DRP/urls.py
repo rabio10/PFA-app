@@ -11,6 +11,9 @@ urlpatterns = [
     path('planification/', views.planification, name='planification'),
     path('parametre/', views.parametre, name='parametre'),
     path('prevision_total_json/', views.prevision_total_json, name='prevision_total_json'),
+    path('download_planning_depot/', views.download_planning_depot, name='download_planning_depot'),
+    path('download_planning_total/', views.download_planning_total, name='download_planning_total'),
+
 ]
 
 if settings.DEBUG:
